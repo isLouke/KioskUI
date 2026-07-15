@@ -1,5 +1,5 @@
-import LogoView from "@/components/LogoView/logo-view";
+import IdleView from "@/components/LogoView/idle-view";
 
 export default function Home() {
-  return <LogoView />;
+  return <IdleView />;
 }
