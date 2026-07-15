@@ -5,7 +5,7 @@ export default function Footer() {
   return (
     <div className="flex justify-center items-center h-1/5 border-t border-foreground p-8">
       <div className="flex flex-col justify-center items-center gap-4">
-        <PhysicalButton />
+        <PhysicalButton redirectPath="/main-menu" />
         <Typography type="h4">Press a Button to wake up</Typography>
       </div>
     </div>
