@@ -1,8 +1,5 @@
-import { ThemeSwitch } from "@/components/common/toggle-theme";
+import LogoView from "@/components/LogoView/logo-view";
+
 export default function Home() {
-  return (
-    <main>
-      <ThemeSwitch />
-    </main>
-  );
+  return <LogoView />;
 }
