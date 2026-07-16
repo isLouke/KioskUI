@@ -6,10 +6,9 @@ import Logo from "./logo";
 import Weather from "./weather";
 
 export default function Body() {
-  const timer = 15; // seconds
+  const timer = 10; // seconds
   const [showLogo, setShowLogo] = useState(true);
 
-  // Toggle between true/false every X seconds
   useEffect(() => {
     const interval = setInterval(() => {
       setShowLogo((prev) => !prev);
@@ -19,9 +18,8 @@ export default function Body() {
   }, [timer]);
 
   return (
-    // Added perspective here to make the 3D rotation look realistic
     <div
-      className="flex grow justify-center items-center overflow-hidden"
+      className="flex grow justify-center items-center"
       style={{ perspective: 1000 }}
     >
       <AnimatePresence mode="wait">
