@@ -6,6 +6,7 @@ import VisibilityInfo from "./weather_components/weather-visibility";
 import UVInfo from "./weather_components/weather-uv-index";
 import SunsetInfo from "./weather_components/weather-sunset";
 import SunriseInfo from "./weather_components/weather-sunrise";
+import HumidityInfo from "./weather_components/weather-humidity";
 
 // OpenWeather API response structure for reference
 // {
@@ -52,24 +53,117 @@ import SunriseInfo from "./weather_components/weather-sunrise";
 // SunriseInfo expects Local Hour not UTC from the API.
 // We should interchange the Sunrise and Sunset hours if its day or night. (i.e. if its day, show Sunset, if its night, show Sunrise)
 
-export default function Weather() {
+export default function Weather({
+  dt, // current time in UTC
+  sunrise, // sunrise time in UTC
+  sunset, // sunset time in UTC
+  temp, // temperature in Kelvin
+  feels_like, // feels like temperature in Kelvin
+  pressure, // atmospheric pressure in hPa
+  humidity, // humidity percentage
+  dew_point, // dew point in Kelvin
+  uvi, // UV index
+  clouds, // cloudiness percentage
+  visibility, // visibility in meters
+  wind_speed, // wind speed in m/s
+  wind_deg, // wind direction in degrees
+  id, // weather condition id
+  main, // group of weather parameters (Rain, Snow, Extreme etc.)
+  description, // weather condition within the group
+  icon, // weather icon id
+}: {
+  dt: number;
+  sunrise: number;
+  sunset: number;
+  temp: number;
+  feels_like: number;
+  pressure: number;
+  humidity: number;
+  dew_point: number;
+  uvi: number;
+  clouds: number;
+  visibility: number;
+  wind_speed: number;
+  wind_deg: number;
+  id: number;
+  main: string;
+  description: string;
+  icon: string;
+}) {
+  const isDay = dt >= sunrise && dt < sunset; // Determine if it's day or night
+  const isUVAvailable = uvi !== 0; // Check if UV index is available (not zero)
+  const temperature = Math.round(temp - 273.15); // Convert Kelvin to Celsius
+  const windDirection = getCompassDirection(wind_deg); // Convert wind degrees to compass direction
+
+  const sunriseDate = new Date(sunrise * 1000);
+  const sunsetDate = new Date(sunset * 1000);
+
+  const sunriseHours = sunriseDate.getHours().toString().padStart(2, "0");
+  const sunriseMinutes = sunriseDate.getMinutes().toString().padStart(2, "0");
+  const sunsetHours = sunsetDate.getHours().toString().padStart(2, "0");
+  const sunsetMinutes = sunsetDate.getMinutes().toString().padStart(2, "0");
+
+  const sunriseTime = `${sunriseHours}:${sunriseMinutes}`;
+  const sunsetTime = `${sunsetHours}:${sunsetMinutes}`;
+
+  const sunsetPassed = dt <= sunset;
+
   return (
     <div className="flex w-screen items-center justify-center gap-10 scale-150">
       <WeatherDescription
-        id={800}
-        main="Clear"
-        description="sky is clear"
-        icon="01d"
-        temperature={25}
+        main={main}
+        description={description}
+        temperature={temperature}
+        isDay={isDay}
       />
       <div className="grid grid-cols-2 gap-8">
-        <WindInfo windSpeed="8.2" windDirection="NE" />
-        <VisibilityInfo visibility="10" />
+        <WindInfo
+          windSpeed={wind_speed.toString()}
+          windDirection={windDirection}
+        />
+        <VisibilityInfo visibility={visibility.toString()} />
+        {isUVAvailable ? (
+          <UVInfo uvi={uvi.toString()} />
+        ) : (
+          <HumidityInfo humidity={humidity.toString()} />
+        )}
 
-        <UVInfo uvi="1.55" />
-        <SunriseInfo sunrise="06:45" />
-        {/* <SunsetInfo sunset="19:32" /> */}
+        {sunsetPassed ? (
+          <SunriseInfo sunrise={sunriseTime} />
+        ) : (
+          <SunsetInfo sunset={sunsetTime} />
+        )}
       </div>
     </div>
   );
+}
+
+function getCompassDirection(degrees: number): string {
+  // 1. normalized degrees = ((raw degrees % 360) + 360) % 360
+  // 2. sector index = round(normalized degrees / 22.5) % 16
+  // 3. Map to Compass Point: The sector index is then mapped to its corresponding 16-point compass heading (0 = N, 1 = NNE, ..., 15 = NNW).
+  const normalizedDegrees = ((degrees % 360) + 360) % 360;
+  const sectorIndex = Math.round(normalizedDegrees / 22.5) % 16;
+
+  const compassPoints = [
+    "N",
+    "NNE",
+    "NE",
+    "ENE",
+    "E",
+    "ESE",
+    "SE",
+    "SSE",
+    "S",
+    "SSW",
+    "SW",
+    "WSW",
+    "W",
+    "WNW",
+    "NW",
+    "NNW",
+  ];
+
+  const direction = compassPoints[sectorIndex];
+  return direction;
 }
