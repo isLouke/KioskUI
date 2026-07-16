@@ -13,8 +13,8 @@ export default function WeatherDescription({
   isDay: boolean;
 }) {
   return (
-    <div className="flex items-center gap-4">
-      {getWeatherIcon({ main, isDay })}
+    <div className="flex items-center gap-8">
+      <div className="scale-200">{getWeatherIcon({ main, isDay })}</div>
       <div className="flex flex-col items-start">
         <Typography type="h1">{temperature}°</Typography>
         <Typography type="h5" className="uppercase">
