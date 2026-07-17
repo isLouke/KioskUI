@@ -10,7 +10,9 @@ export default function SunsetInfo({ sunset }: { sunset: string }) {
     <div className="flex items-center gap-2">
       <Sunset className="text-purple-500" />
       <div className="flex flex-col items-start">
-        <Typography type="body">{sunset}</Typography>
+        <Typography type="body" weight="bold">
+          {sunset}
+        </Typography>
         <Typography type="body" color="muted">
           SUNSET
         </Typography>

@@ -10,7 +10,9 @@ export default function HumidityInfo({ humidity }: { humidity: string }) {
     <div className="flex items-center gap-2">
       <Droplets className="text-blue-500" />
       <div className="flex flex-col items-start">
-        <Typography type="body">{humidity} %</Typography>
+        <Typography type="body" weight="bold">
+          {humidity} %
+        </Typography>
         <Typography type="body" color="muted">
           HUMIDITY
         </Typography>

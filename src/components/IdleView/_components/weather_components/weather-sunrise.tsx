@@ -10,7 +10,9 @@ export default function SunriseInfo({ sunrise }: { sunrise: string }) {
     <div className="flex items-center gap-2">
       <Sunrise className="text-yellow-600" />
       <div className="flex flex-col items-start">
-        <Typography type="body">{sunrise}</Typography>
+        <Typography type="body" weight="bold">
+          {sunrise}
+        </Typography>
         <Typography type="body" color="muted">
           SUNRISE
         </Typography>

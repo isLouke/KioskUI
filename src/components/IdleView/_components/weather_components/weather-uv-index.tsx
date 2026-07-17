@@ -13,7 +13,9 @@ export default function UVInfo({ uvi }: { uvi: string }) {
     <div className="flex items-center gap-2">
       <ThermometerSun className="text-orange-500" />
       <div className="flex flex-col items-start">
-        <Typography type="body">{uvi}</Typography>
+        <Typography type="body" weight="bold">
+          {uvi}
+        </Typography>
         <Typography type="body" color="muted">
           UV INDEX
         </Typography>

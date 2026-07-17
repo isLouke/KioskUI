@@ -95,21 +95,26 @@ export default function Weather({
   const temperature = Math.round(temp - 273.15); // Convert Kelvin to Celsius
   const windDirection = getCompassDirection(wind_deg); // Convert wind degrees to compass direction
 
+  // Convert the Dates from utc to the desired format.
+  //
+  // First convert the UTC timestamp to a Date object.
   const sunriseDate = new Date(sunrise * 1000);
   const sunsetDate = new Date(sunset * 1000);
-
+  // Second extract the hours and minutes
   const sunriseHours = sunriseDate.getHours().toString().padStart(2, "0");
   const sunriseMinutes = sunriseDate.getMinutes().toString().padStart(2, "0");
   const sunsetHours = sunsetDate.getHours().toString().padStart(2, "0");
   const sunsetMinutes = sunsetDate.getMinutes().toString().padStart(2, "0");
-
+  // Third desired format is HH:MM
   const sunriseTime = `${sunriseHours}:${sunriseMinutes}`;
   const sunsetTime = `${sunsetHours}:${sunsetMinutes}`;
 
-  const sunsetPassed = dt <= sunset;
+  // Determine if the current time is after sunset
+  //
+  const sunsetPassed = dt >= sunset;
 
   return (
-    <div className="flex w-screen items-center justify-center gap-10 scale-150">
+    <div className="flex  items-center justify-center gap-10 scale-150">
       <WeatherDescription
         main={main}
         description={description}
