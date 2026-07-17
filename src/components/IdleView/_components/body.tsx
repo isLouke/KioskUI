@@ -42,8 +42,8 @@ export default function Body({
   description: string;
   icon: string;
 }) {
-  const timer = 10000; // seconds
-  const [showLogo, setShowLogo] = useState(false);
+  const timer = 10; // seconds
+  const [showLogo, setShowLogo] = useState(true);
 
   useEffect(() => {
     const interval = setInterval(() => {

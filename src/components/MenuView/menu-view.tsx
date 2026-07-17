@@ -6,7 +6,7 @@ export default function MenuView() {
       <MessageBox
         header="Welcome to the Menu View"
         content="This is a simple message box component."
-        timer={30}
+        timer={10}
       />
     </div>
   );
